@@ -32,7 +32,7 @@ hd_img = data['hdurl']
 sd_img = data['url']
 
 #create the discord embed, and add the SD image
-embed = discord.Embed(title="Astronomy Picture of the Day for {}.".format(date), description=title, color=0xfc3d21)
+embed = discord.Embed(title="Astronomy Picture of the Day for {}.".format(date), description=title, color=0x0B3D91)
 embed.set_image(url=sd_img)
 
 #textwrap it so it fits within discord message length
