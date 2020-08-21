@@ -17,7 +17,7 @@ Then add it to the crontab
 ```
 crontab -e
 ```
- Then add the following line:  
+ Then add the following line at the bottom:  
 ```
 0 8 * * * ~/APOD_Hook/webhook.sh
 ```
