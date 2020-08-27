@@ -4,7 +4,7 @@ from discord import Webhook, RequestsWebhookAdapter, File
 import textwrap
 import datetime
 import json
-#python config file
+#python config file with the API keys in it.
 import config
 
 #Webhook to send astronomy picture of the day
