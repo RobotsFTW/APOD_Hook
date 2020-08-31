@@ -25,24 +25,31 @@ url = "https://api.nasa.gov/planetary/apod?api_key={}&date={}".format(config.NAS
 #Get information from response to embed in message
 res = requests.get(url)
 data=res.json()
-title= data['title']
-date = data['date']
-descr = data['explanation']
-hd_img = data['hdurl']
-sd_img = data['url']
 
-#create the discord embed, and add the SD image
-embed = discord.Embed(title="Astronomy Picture of the Day for {}.".format(date), description=title, color=0x0B3D91)
-embed.set_image(url=sd_img)
+#check to see if there is an error, can happen if cheching the
+#picture to early in the day.
+if "code" in data:
+    msg = data["msg"]
+    webhook.send(msg)
+else:
+    title= data['title']
+    date = data['date']
+    descr = data['explanation']
+    hd_img = data['hdurl']
+    sd_img = data['url']
 
-#textwrap it so it fits within discord message length
-content = textwrap.wrap(descr, 1000)
-for item in content:
-    embed.add_field(name="Description:", value=item, inline=False)
+    #create the discord embed, and add the SD image
+    embed = discord.Embed(title="Astronomy Picture of the Day for {}.".format(date), description=title, color=0x0B3D91)
+    embed.set_image(url=sd_img)
 
-#Add image links
-embed.add_field(name="HD Image Link:", value=hd_img, inline=False)
-embed.add_field(name="SD Image Link:", value=sd_img, inline=False)
+    #textwrap it so it fits within discord message length
+    content = textwrap.wrap(descr, 1000)
+    for item in content:
+        embed.add_field(name="Description:", value=item, inline=False)
 
-# Send embed to server
-webhook.send(embed=embed)
+    #Add image links
+    embed.add_field(name="HD Image Link:", value=hd_img, inline=False)
+    embed.add_field(name="SD Image Link:", value=sd_img, inline=False)
+
+    # Send embed to server
+    webhook.send(embed=embed)
