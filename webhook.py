@@ -31,7 +31,7 @@ data=res.json()
 if "code" in data:
     msg = data["msg"]
     webhook.send(msg)
-else:
+elif data["media_type"] == "image":
     title= data['title']
     date = data['date']
     descr = data['explanation']
@@ -52,4 +52,23 @@ else:
     embed.add_field(name="SD Image Link:", value=sd_img, inline=False)
 
     # Send embed to server
+    webhook.send(embed=embed)
+elif data["media_type"] == "video":
+    title= data['title']
+    date = data['date']
+    descr = data['explanation']
+    vid_url = data["url"]
+
+    #create the discord embed, and add the video Link
+    embed = discord.Embed(title="Astronomy Picture of the Day for {}.".format(date), description=title, color=0x0B3D91)
+
+    #textwrap it so it fits within discord message length
+    content = textwrap.wrap(descr, 1000)
+    for item in content:
+        embed.add_field(name="Description:", value=item, inline=False)
+
+    #Add Video Link
+    embed.add_field(name="Video Link:", value=vid_url, inline=False)
+
+    #send Webhook
     webhook.send(embed=embed)
