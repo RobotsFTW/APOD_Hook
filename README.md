@@ -20,4 +20,7 @@ crontab -e
  Then add the following line at the bottom:  
 ```
 0 8 * * * ~/APOD_Hook/webhook.sh
-```
+```  
+  
+TODO:  
+- [ ] Rewrite using functions so there is less repeated code
