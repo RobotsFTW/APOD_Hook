@@ -1,9 +1,10 @@
 import datetime
 import textwrap
-
+import os
 import discord
 import requests
 from discord import RequestsWebhookAdapter, Webhook
+from PIL import Image, ImageFont, ImageDraw
 
 import config
 
@@ -49,5 +50,57 @@ elif data["media_type"] == "video":
     vid_url = data["url"]
     embed.add_field(name="Video Link:", value=vid_url, inline=False)
 
+
+#InSight weather
+
+#InSight backround picture file path
+path = "insight.png"
+new_path = "new_insight.png"
+img = Image.open(path)
+img2 = ImageDraw.Draw(img)
+sansFont= ImageFont.truetype(os.path.join("fonts/", 'LiberationSans-Bold.ttf'), 18)
+
+#insert NASA API key into the url
+url = 'https://api.nasa.gov/insight_weather/?api_key={}&feedtype=json&ver=1.0'.format(config.NASA_KEY)
+
+#get json info from url
+data = requests.get(url).json()
+
+days = []
+
+#gets the keys for the days and deltes anything older than 7 days
+keys = data['sol_keys']
+count = len(keys)
+count = count - 7
+del keys[:count]
+
+x = 46
+y = 290
+#adds all the info into a list called days
+for sol in keys:
+    date = data[sol]["First_UTC"]
+    temp_high = round(data[sol]["AT"]["mx"], 2)
+    temp_low = round(data[sol]["AT"]["mn"], 2)
+    wind_high = round(data[sol]["HWS"]["mx"], 2)
+    wind_low = round(data[sol]["HWS"]["mn"], 2)
+    pressure_high = round(data[sol]["PRE"]["mx"], 2)
+    pressure_low = round(data[sol]["PRE"]["mn"], 2)
+    season = data[sol]["Season"]
+    #day_info = (sol, date, temp_high, temp_low, wind_high, wind_low, pressure_high, pressure_low, season)
+    #days.append(day_info)
+    season = "Season: " + season
+    img2.text((x, y), season, fill='white', font=sansFont)
+
+#save image to new path
+img.save(new_path)
+
+embed2 = discord.Embed(title='InSight Mars Weather', description='NASAs InSight Mars lander takes continuous weather measurements \
+                       (temperature, wind, pressure) on the surface of Mars at Elysium Planitia, a flat, smooth plain near Mars equator.', color=0x0B3D91)
+
+#creates a file object and attaches it to embed2
+file = discord.File(new_path, filename=new_path)
+embed2.set_image(url="attachment://new_insight.png")
+
 #send Webhook
-webhook.send(embed=embed)
+webhook.send(embeds=(embed, embed2), file=file)
+
