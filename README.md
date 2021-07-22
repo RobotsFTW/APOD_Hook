@@ -24,4 +24,3 @@ crontab -e
   
 TODO:  
 - [x] Rewrite using functions so there is less repeated code
-- [ ] Add mars Insight weather to the message
