@@ -23,4 +23,6 @@ crontab -e
 ```  
   
 TODO:  
-- [x] Rewrite using functions so there is less repeated code
+- [ ] Rewrite using functions so there is less repeated code
+- [x] Impliment Logging
+- [ ] Impliment Unit Tests
