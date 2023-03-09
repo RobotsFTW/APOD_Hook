@@ -22,6 +22,10 @@ crontab -e
 0 8 * * * ~/APOD_Hook/webhook.sh
 ```  
   
+  Example of output:
+  ![image](https://user-images.githubusercontent.com/10344957/224086884-2ef83d62-4180-4e42-9ce0-89fa923fb628.png)
+
+  
 TODO:  
 - [ ] Rewrite using functions so there is less repeated code
 - [x] Impliment Logging
