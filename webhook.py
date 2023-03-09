@@ -5,7 +5,7 @@ import traceback
 
 import discord
 import requests
-from discord import RequestsWebhookAdapter, Webhook
+from discord import SyncWebhook, Webhook
 
 import config
 
@@ -17,7 +17,7 @@ logging.basicConfig(filename='APOD.log', level=logging.INFO)
 #put it all in a try except statment to log any errors. i.e. no internet connection
 try:
     #Create webhook
-    webhook = Webhook.from_url(config.WEBHOOK_URL, adapter=RequestsWebhookAdapter())
+    webhook = SyncWebhook.from_url(config.WEBHOOK_URL)
 
     #Get todays date and format it for the APOD API URL
     now = datetime.datetime.today()
