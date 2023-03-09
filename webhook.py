@@ -5,7 +5,7 @@ import traceback
 
 import discord
 import requests
-from discord import SyncWebhook, Webhook
+from discord import SyncWebhook
 
 import config
 
