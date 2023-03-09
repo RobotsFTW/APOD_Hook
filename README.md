@@ -23,6 +23,7 @@ crontab -e
 ```  
   
   Example of output:
+  
   ![image](https://user-images.githubusercontent.com/10344957/224086884-2ef83d62-4180-4e42-9ce0-89fa923fb628.png)
 
   
