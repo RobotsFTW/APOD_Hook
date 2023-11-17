@@ -8,11 +8,14 @@ import requests
 from discord import SyncWebhook
 
 import config
+import os
 
 #Webhook to send astronomy picture of the day
 
 #logging
-logging.basicConfig(filename='APOD.log', level=logging.INFO)
+log_dir = os.path.join(os.path.normpath(os.getcwd() + os.sep + os.pardir), 'APOD_Hook')
+log_fname = os.path.join(log_dir, 'APOD.log')
+logging.basicConfig(filename=log_fname, level=logging.INFO)
 
 #put it all in a try except statment to log any errors. i.e. no internet connection
 try:
