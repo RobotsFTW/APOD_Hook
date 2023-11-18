@@ -6,6 +6,7 @@ It should look like this:
 ```
 NASA_KEY='NASA Api key goes here...'
 WEBHOOK_URL='https://discordapp.com/api/webhooks/...the rest of your URL...'
+log_file = 'location where you want your log file .../APOD.log'
 ```
 
 I have the webhook run off a crontab every day at 8 am.  
