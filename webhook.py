@@ -20,26 +20,34 @@ logging.basicConfig(filename=log_file_name, level=logging.INFO)
 retries = 1
 APOD_sent = False
 
+# Create webhook
+webhook = discord.SyncWebhook.from_url(config.WEBHOOK_URL)
+
+# Get today's date and format it for the APOD API URL
+now = datetime.datetime.today()
+date = "{}-{}-{}".format(now.year, now.month, now.day)
+
+# insert date and api key into the NASA APOD API URL
+url = "https://api.nasa.gov/planetary/apod?api_key={}&date={}".format(config.NASA_KEY, date)
+
+
 # Tries to send the APOD 5 times.
 while not APOD_sent and retries < 5:
     try:
-        # Create webhook
-        webhook = discord.SyncWebhook.from_url(config.WEBHOOK_URL)
-
-        # Get today's date and format it for the APOD API URL
-        now = datetime.datetime.today()
-        date = "{}-{}-{}".format(now.year, now.month, now.day)
-
-        # insert date and api key into the NASA APOD API URL
-        url = "https://api.nasa.gov/planetary/apod?api_key={}&date={}".format(config.NASA_KEY, date)
-
         # Get information from response to embed in message
         data = requests.get(url).json()
 
-        # check to see if there is an error. Send error and Exit.
+        # check to see if there is an error. Send error, add it to log, and Exit.
         if "code" in data:
             msg = data["msg"]
             webhook.send(msg)
+            logging.info(f'ERROR: {msg} {now}')
+            exit()
+
+        if "error" in data:
+            msg = data["error"]["message"]
+            webhook.send(msg)
+            logging.info(f'ERROR: {msg} {now}')
             exit()
 
         # create the discord embed, add title
