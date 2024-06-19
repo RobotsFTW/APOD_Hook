@@ -30,7 +30,6 @@ date = "{}-{}-{}".format(now.year, now.month, now.day)
 # insert date and api key into the NASA APOD API URL
 url = "https://api.nasa.gov/planetary/apod?api_key={}&date={}".format(config.NASA_KEY, date)
 
-
 # Tries to send the APOD 5 times.
 while not APOD_sent and retries <= 5:
     try:
@@ -88,7 +87,7 @@ while not APOD_sent and retries <= 5:
         time.sleep(wait)
         retries += 1
 
-#send an error message embed if it can't send APOD.
+# Send an error message embed if it can't send APOD.
 if retries > 5 and not APOD_sent:
     embed = discord.Embed(title="Astronomy Picture of the Day for {}.".format(date), color=0x0B3D91)
     embed.add_field(name="Error:", value="There was an error with the APOD API. Please check the logs.", inline=False)
